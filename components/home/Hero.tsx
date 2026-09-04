@@ -165,7 +165,7 @@ export default function Hero() {
           {/* Badge */}
 
           <span className="mb-5 inline-block rounded-full border border-amber-400/35 bg-amber-400/10 px-4 py-2 text-sm font-bold text-amber-300">
-            مشاوره تخصصی تحصیلی و کنکور
+            مشاوره تخصصی کنکور و هدایت تحصیلی
           </span>
 
 
@@ -187,9 +187,9 @@ export default function Hero() {
           {/* Description */}
 
           <p className="mt-7 max-w-xl text-base leading-8 text-slate-300 sm:text-lg">
-            مشاوره تخصصی کنکور توسط مهیار بیرون‌خو؛
-            همراه با برنامه شخصی، تحلیل آزمون، پیگیری مستمر
-            و مسیر مشخص برای رسیدن به بهترین نتیجه.
+            مشاوره تخصصی کنکور و برنامه‌ریزی تحصیلی توسط مهیار بیرون‌خو؛
+            همراه با برنامه شخصی‌سازی‌شده، تحلیل آزمون، پیگیری مستمر
+            و مسیر مشخص برای رسیدن به بهترین نتیجه در کنکور.
           </p>
 
 

@@ -290,44 +290,45 @@ export default function AdminReservationsPage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center justify-end gap-2">
             <Link
               href="/admin/assessments"
-              className="hidden items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-600 transition hover:border-amber-300 hover:text-amber-700 sm:inline-flex"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600 transition hover:border-amber-300 hover:text-amber-700 sm:px-4 sm:text-sm"
             >
               <ClipboardList size={16} />
-              آزمون‌ها
+              <span>آزمون‌ها</span>
             </Link>
             <Link
               href="/admin/news"
-              className="hidden items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-600 transition hover:border-amber-300 hover:text-amber-700 sm:inline-flex"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600 transition hover:border-amber-300 hover:text-amber-700 sm:px-4 sm:text-sm"
             >
               <Newspaper size={16} />
-              اخبار
+              <span>اخبار</span>
             </Link>
             <Link
               href="/"
-              className="hidden items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-600 transition hover:border-amber-300 hover:text-amber-700 sm:inline-flex"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600 transition hover:border-amber-300 hover:text-amber-700 sm:px-4 sm:text-sm"
             >
               <ArrowRight size={16} />
-              بازگشت به سایت
+              <span className="hidden sm:inline">بازگشت به سایت</span>
+              <span className="sm:hidden">سایت</span>
             </Link>
             <button
               type="button"
               onClick={loadReservations}
               disabled={loading}
-              className="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-sm font-bold text-white transition hover:bg-slate-800 disabled:opacity-60"
+              className="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-3 py-2 text-xs font-bold text-white transition hover:bg-slate-800 disabled:opacity-60 sm:px-4 sm:text-sm"
             >
               <RefreshCw
                 size={16}
                 className={loading ? "animate-spin" : ""}
               />
-              بروزرسانی
+              <span className="hidden sm:inline">بروزرسانی</span>
             </button>
             <button
               type="button"
               onClick={handleLogout}
-              className="inline-flex items-center gap-2 rounded-xl border border-red-200 bg-white px-4 py-2 text-sm font-bold text-red-600 transition hover:bg-red-50"
+              className="inline-flex items-center gap-2 rounded-xl border border-red-200 bg-white px-3 py-2 text-xs font-bold text-red-600 transition hover:bg-red-50 sm:px-4 sm:text-sm"
             >
               <LogOut size={16} />
               <span className="hidden sm:inline">خروج</span>

@@ -21,9 +21,7 @@ type NewsItem = {
 // دریافت لیست اخبار تأییدشده برای افزودن به sitemap
 // ============================================================
 
-async function getNewsEntries(): Promise<
-  MetadataRoute.Sitemap
-> {
+async function getNewsEntries(): Promise<MetadataRoute.Sitemap> {
   try {
     const response = await fetch(
       `${GOOGLE_SCRIPT_URL}?action=getNews&_=${Date.now()}`,
@@ -95,6 +93,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/planning`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/major-selection`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
     },
     {
       url: `${BASE_URL}/news`,

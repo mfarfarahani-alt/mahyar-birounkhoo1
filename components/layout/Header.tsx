@@ -8,8 +8,8 @@ import { useState } from "react";
 const menuItems = [
   { title: "خانه", href: "/" },
   { title: "درباره من", href: "/#about" },
-  { title: "خدمات", href: "/#services" },
-  { title: "رتبه‌ها", href: "/#results" },
+  { title: "برنامه‌ریزی", href: "/planning" },
+  { title: "انتخاب رشته", href: "/major-selection" },
   { title: "آزمون‌ها", href: "/assessments" },
   { title: "اخبار", href: "/news" },
   { title: "تماس", href: "/#contact" },
