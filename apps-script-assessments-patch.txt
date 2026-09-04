@@ -1,0 +1,96 @@
+============================================================
+تغییرات لازم در Google Apps Script (code.gs)
+برای کار کردن پنل ادمین «آزمون‌ها»
+منطبق با ساختار واقعی شیت «آزمون‌ها»
+============================================================
+
+ستون‌های فعلی شیت آزمون‌ها (بدون تغییر):
+A: تاریخ ثبت | B: نام و نام خانوادگی | C: شماره موبایل
+D: نوع آزمون | E: نتیجه | F: خلاصه نتیجه (جزئیات)
+
+شناسه (id) هر نتیجه در پنل ادمین همان شماره‌ی ردیف آن در شیت است
+(دقیقاً مثل رزروها و اخبار) — نیازی به ستون id جداگانه نیست.
+برای این بخش فعلاً فقط امکان «حذف» اضافه شده (بدون وضعیت پیگیری،
+چون آزمون‌ها نیازی به تأیید/رد ندارند).
+
+
+۱) داخل تابع doGet، بعد از چک "getReservations" این را اضافه کنید:
+------------------------------------------------------------
+
+    if (action === "getAssessments") {
+      return getAssessments();
+    }
+
+
+۲) این تابع جدید را اضافه کنید (مثلاً بعد از getReservations):
+------------------------------------------------------------
+
+function getAssessments() {
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = findAssessmentSheet(spreadsheet);
+  if (!sheet) throw new Error("شیت «آزمون‌ها» پیدا نشد.");
+
+  const values = sheet.getDataRange().getValues();
+  if (values.length <= 1) return jsonResponse({ success: true, assessments: [] });
+
+  const assessments = [];
+  for (let i = 1; i < values.length; i++) {
+    const row = values[i];
+
+    assessments.push({
+      rowNumber: i + 1,
+      id: String(i + 1),
+      createdAt: formatDate(row[0]),
+      name: row[1] || "",
+      phone: row[2] || "",
+      testType: row[3] || "",
+      result: row[4] || "",
+      detail: row[5] || ""
+    });
+  }
+  assessments.reverse();
+  return jsonResponse({ success: true, assessments: assessments });
+}
+
+
+۳) داخل doPost، قبل از بخش «آزمون‌ها» (data.type === "assessment")
+   این چک را اضافه کنید تا حذف از پنل ادمین هم کار کند:
+------------------------------------------------------------
+
+    if (data.type === "assessmentAction") {
+      return handleAssessmentAction(data.action, data.id);
+    }
+
+
+۴) این تابع جدید را هم اضافه کنید:
+------------------------------------------------------------
+
+function handleAssessmentAction(action, id) {
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = findAssessmentSheet(spreadsheet);
+  if (!sheet) throw new Error("شیت «آزمون‌ها» پیدا نشد.");
+
+  if (!id) throw new Error("شناسه آزمون ارسال نشده است.");
+
+  const targetRow = parseInt(id, 10);
+  if (!targetRow || targetRow < 2 || targetRow > sheet.getLastRow()) {
+    throw new Error("نتیجه آزمون مورد نظر پیدا نشد.");
+  }
+
+  if (action === "delete") {
+    sheet.deleteRow(targetRow);
+    return jsonResponse({ success: true, message: "نتیجه آزمون با موفقیت حذف شد." });
+  }
+  throw new Error("عملیات نامعتبر است.");
+}
+
+
+۵) بعد از ذخیره، یک بار Deploy جدید بگیرید:
+   Deploy → Manage deployments → ویرایش (✏️) → Version: New version → Deploy
+
+============================================================
+نکته: در پنل ادمین آزمون‌ها اگر ستون F (خلاصه نتیجه) حاوی یک
+رشته‌ی JSON با ساختار {"scores": {...}} باشد، جزئیات نمرات به‌صورت
+خودکار به‌شکل تفکیک‌شده نمایش داده می‌شود؛ در غیر این صورت فقط
+همان مقدار خام نمایش داده می‌شود.
+============================================================

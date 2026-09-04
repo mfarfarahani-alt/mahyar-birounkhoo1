@@ -1,0 +1,143 @@
+============================================================
+تغییرات لازم در Google Apps Script (code.gs)
+برای کار کردن پنل ادمین «رزروها»
+منطبق با ساختار واقعی فایل شما (Sheet1)
+============================================================
+
+ستون‌های فعلی شیت Sheet1 (بدون تغییر):
+A: تاریخ ثبت | B: نام | C: تلفن | D: پایه | E: رشته | F: شهر
+G: بسته | H: توضیحات | I: نوع مشاوره | J: تاریخ مشاوره | K: ساعت مشاوره
+
+یک ستون جدید اضافه می‌شود:
+L: وضعیت پیگیری (status) — فقط برای رزروهای جدید نوشته می‌شود.
+   رزروهای قبلی که این ستون را ندارند، به‌طور خودکار
+   «در انتظار پیگیری» در نظر گرفته می‌شوند.
+
+شناسه (id) هر رزرو در پنل ادمین همان شماره‌ی ردیف آن در شیت است
+(دقیقاً مثل چیزی که برای rowNumber در بخش اخبار استفاده کرده‌اید)
+— نیازی به ستون id جداگانه نیست.
+
+
+۱) داخل تابع doGet، بعد از چک "getPackages" این را اضافه کنید:
+------------------------------------------------------------
+
+    if (action === "getReservations") {
+      return getReservations();
+    }
+
+
+۲) این تابع جدید را به اسکریپت اضافه کنید (مثلاً بعد از getPackages):
+------------------------------------------------------------
+
+function getReservations() {
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = spreadsheet.getSheetByName(RESERVATION_SHEET_NAME);
+  if (!sheet) throw new Error("شیت رزروها پیدا نشد.");
+
+  const values = sheet.getDataRange().getValues();
+  if (values.length <= 1) return jsonResponse({ success: true, reservations: [] });
+
+  const reservations = [];
+  for (let i = 1; i < values.length; i++) {
+    const row = values[i];
+    const status = String(row[11] || "pending").trim().toLowerCase() || "pending";
+
+    reservations.push({
+      rowNumber: i + 1,
+      id: String(i + 1),
+      createdAt: formatDate(row[0]),
+      name: row[1] || "",
+      phone: row[2] || "",
+      grade: row[3] || "",
+      field: row[4] || "",
+      city: row[5] || "",
+      package: row[6] || "",
+      description: row[7] || "",
+      consultationType: row[8] || "",
+      date: row[9] || "",
+      time: row[10] || "",
+      status: status
+    });
+  }
+  reservations.reverse();
+  return jsonResponse({ success: true, reservations: reservations });
+}
+
+
+۳) داخل doPost، بخش ثبت رزرو (انتهای تابع، بعد از چک packageAction)
+   را با این نسخه جایگزین کنید تا وضعیت پیش‌فرض هم ثبت شود:
+------------------------------------------------------------
+
+    // رزرو مشاوره
+    const reservationSheet = spreadsheet.getSheetByName(RESERVATION_SHEET_NAME);
+    if (!reservationSheet) throw new Error("شیت Sheet1 پیدا نشد.");
+
+    reservationSheet.appendRow([
+      new Date(),
+      data.name || "",
+      data.phone || "",
+      data.grade || "",
+      data.field || "",
+      data.city || "",
+      data.package || "",
+      data.description || "",
+      data.consultationType || "",
+      data.date || "",
+      data.time || "",
+      "pending"
+    ]);
+
+    return jsonResponse({ success: true, message: "درخواست مشاوره با موفقیت ثبت شد." });
+
+
+۴) قبل از همین بخش (رزرو مشاوره)، این چک را اضافه کنید تا اکشن‌های
+   پنل ادمین (پیگیری‌شد / برگشت به انتظار / حذف) هم مدیریت شوند:
+------------------------------------------------------------
+
+    // مدیریت رزروها (پنل ادمین)
+    if (data.type === "reservationAction") {
+      return handleReservationAction(data.action, data.id);
+    }
+
+
+۵) این تابع جدید را هم اضافه کنید (مثلاً بعد از handlePackageAction):
+------------------------------------------------------------
+
+function handleReservationAction(action, id) {
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = spreadsheet.getSheetByName(RESERVATION_SHEET_NAME);
+  if (!sheet) throw new Error("شیت رزروها پیدا نشد.");
+
+  if (!id) throw new Error("شناسه رزرو ارسال نشده است.");
+
+  const targetRow = parseInt(id, 10);
+  if (!targetRow || targetRow < 2 || targetRow > sheet.getLastRow()) {
+    throw new Error("رزرو مورد نظر پیدا نشد.");
+  }
+
+  if (action === "markContacted") {
+    sheet.getRange(targetRow, 12).setValue("contacted");
+    return jsonResponse({ success: true, message: "رزرو پیگیری‌شده علامت خورد." });
+  }
+  if (action === "markPending") {
+    sheet.getRange(targetRow, 12).setValue("pending");
+    return jsonResponse({ success: true, message: "رزرو به در انتظار برگشت." });
+  }
+  if (action === "delete") {
+    sheet.deleteRow(targetRow);
+    return jsonResponse({ success: true, message: "رزرو با موفقیت حذف شد." });
+  }
+  throw new Error("عملیات نامعتبر است.");
+}
+
+
+۶) بعد از ذخیره، یک بار Deploy جدید بگیرید:
+   Deploy → Manage deployments → ویرایش (✏️) → Version: New version → Deploy
+
+============================================================
+نکته: چون شناسه رزرو همان شماره‌ی ردیف شیت است، اگر بعد از حذف
+یک رزرو بلافاصله (بدون بروزرسانی صفحه) روی رزرو دیگری که پایین‌تر
+از آن بود عملیات بزنید ممکن است شماره ردیف جابه‌جا شده باشد.
+پنل ادمین بعد از هر عملیات خودش لیست را دوباره می‌خواند، پس در
+استفاده‌ی عادی مشکلی پیش نمی‌آید.
+============================================================
