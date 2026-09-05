@@ -251,6 +251,7 @@ export default function ExamCountdown({
 }: Props) {
   return (
     <section
+      id="konkur-countdown"
       dir="rtl"
       className="relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 px-5 py-16"
     >

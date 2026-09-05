@@ -12,7 +12,6 @@ const links = [
   { title: "خانه", href: "/" },
   { title: "درباره من", href: "/#about" },
   { title: "خدمات", href: "/#services" },
-  { title: "رتبه‌های برتر", href: "/students" },
   { title: "آزمون‌ها", href: "/assessments" },
   { title: "اخبار", href: "/news" },
   { title: "رزرو مشاوره", href: "/#reservation" },
@@ -37,7 +36,16 @@ export default function Footer() {
                 />
               </div>
               <div>
-                <div className="text-base font-black text-white">مهیار بیرون‌خو</div>
+                <div className="flex flex-wrap items-baseline gap-x-2">
+                  <span className="text-base font-black text-white">مهیار بیرون‌خو</span>
+                  <span
+                    dir="ltr"
+                    style={{ fontFamily: "'Brush Script MT', 'Segoe Script', cursive" }}
+                    className="text-sm italic tracking-wide text-amber-400/90"
+                  >
+                    Mahyar Bironkhu
+                  </span>
+                </div>
                 <div className="mt-0.5 text-xs font-bold text-amber-400">
                   مشاور تحصیلی و کنکور
                 </div>

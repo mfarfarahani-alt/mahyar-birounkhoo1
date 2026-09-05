@@ -17,8 +17,6 @@ export default function Navbar() {
 
           <li><Link href="/services">خدمات</Link></li>
 
-          <li><Link href="/students">رتبه‌های برتر</Link></li>
-
           <li><Link href="/blog">وبلاگ</Link></li>
 
           <li><Link href="/contact">تماس</Link></li>

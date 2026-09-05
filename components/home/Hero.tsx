@@ -225,7 +225,7 @@ export default function Hero() {
 
 
             <Link
-              href="#results"
+              href="#services"
               className="
                 flex
                 items-center
@@ -243,7 +243,7 @@ export default function Hero() {
                 hover:bg-white/10
               "
             >
-              مشاهده رتبه‌های برتر
+              مشاهده خدمات
               <ArrowLeft size={18} />
             </Link>
 
@@ -306,7 +306,6 @@ export default function Hero() {
                 <Counter
                   end={7}
                   duration={1200}
-                  prefix="+"
                 />
 
               </div>
@@ -358,7 +357,6 @@ export default function Hero() {
                 <Counter
                   end={500}
                   duration={1600}
-                  prefix="+"
                 />
 
               </div>
