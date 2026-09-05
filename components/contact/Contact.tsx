@@ -1,14 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Phone,
-  Copy,
-  Check,
-  MessageCircle,
-  Send,
-  Clock,
-} from "lucide-react";
+import { Phone, Copy, Check, Clock } from "lucide-react";
+import { BaleIcon, TelegramIcon } from "@/components/common/SocialIcons";
 
 const PHONE_DISPLAY = "۰۹۳۸۰۸۵۱۵۰۵";
 const PHONE_RAW = "09380851505";
@@ -116,13 +110,13 @@ export default function Contact() {
             </button>
 
             <a
-              href={`https://wa.me/${PHONE_TEL.replace("+", "")}`}
+              href="https://ble.ir/HerooAcademy"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-emerald-500"
+              className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-blue-500"
             >
-              <MessageCircle size={17} />
-              واتساپ
+              <BaleIcon size={17} />
+              بله
             </a>
 
             <a
@@ -131,7 +125,7 @@ export default function Contact() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-xl bg-sky-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-sky-500"
             >
-              <Send size={17} />
+              <TelegramIcon size={17} />
               تلگرام
             </a>
           </div>

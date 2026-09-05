@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Compass,
   Brain,
@@ -136,6 +137,42 @@ export default function MajorSelectionPage() {
               <ArrowLeft size={18} />
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* پکیج ویژه انتخاب رشته */}
+      <section className="mx-auto max-w-5xl px-5 py-16">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="inline-block rounded-full border border-amber-200 bg-amber-50 px-4 py-1.5 text-sm font-bold text-amber-700">
+            پکیج ویژه
+          </span>
+          <h2 className="mt-4 text-2xl font-black text-slate-900 md:text-3xl">
+            بسته انتخاب رشته ویژه (آزاد + سراسری)
+          </h2>
+          <p className="mt-4 leading-8 text-slate-600">
+            مشاوره تخصصی انتخاب رشته، شبیه‌سازی با نرم‌افزارهای تخصصی و
+            چیدمان اولویت‌بندی هوشمندانه؛ همه در یک بسته کامل.
+          </p>
+        </div>
+
+        <div className="relative mx-auto mt-10 max-w-3xl overflow-hidden rounded-[2rem] border border-slate-200 bg-slate-900 shadow-2xl shadow-slate-300/40">
+          <Image
+            src="/images/major-selection-poster.jpg"
+            alt="بسته انتخاب رشته ویژه - آزاد و سراسری"
+            width={1024}
+            height={1536}
+            className="h-auto w-full object-cover"
+          />
+        </div>
+
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <a
+            href="/#reservation"
+            className="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-6 py-3.5 font-bold text-white shadow-xl shadow-amber-500/20 transition hover:-translate-y-0.5 hover:bg-amber-600"
+          >
+            <Phone size={18} />
+            رزرو بسته انتخاب رشته ویژه
+          </a>
         </div>
       </section>
 

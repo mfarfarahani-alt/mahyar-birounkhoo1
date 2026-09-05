@@ -1,6 +1,7 @@
 "use client";
 
-import { Phone, Send, MessageCircle } from "lucide-react";
+import { Phone } from "lucide-react";
+import { WhatsAppIcon, TelegramIcon, InstagramIcon, BaleIcon } from "./SocialIcons";
 
 const links = [
   {
@@ -12,25 +13,25 @@ const links = [
   {
     title: "واتساپ",
     href: "https://wa.me/989380851505",
-    icon: MessageCircle,
+    icon: WhatsAppIcon,
     className: "bg-green-500 hover:bg-green-600",
   },
   {
     title: "تلگرام",
     href: "https://t.me/HerooAcademy",
-    icon: Send,
+    icon: TelegramIcon,
     className: "bg-sky-500 hover:bg-sky-600",
   },
   {
     title: "اینستاگرام",
     href: "https://www.instagram.com/heroo_academyy",
-    icon: MessageCircle,
+    icon: InstagramIcon,
     className: "bg-pink-500 hover:bg-pink-600",
   },
   {
     title: "بله",
     href: "https://ble.ir/HerooAcademy",
-    icon: MessageCircle,
+    icon: BaleIcon,
     className: "bg-blue-600 hover:bg-blue-700",
   },
 ];

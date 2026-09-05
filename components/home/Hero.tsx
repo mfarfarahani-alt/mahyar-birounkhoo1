@@ -442,7 +442,7 @@ export default function Hero() {
           transition={{
             duration: 0.8,
           }}
-          className="relative mx-auto w-full max-w-[500px]"
+          className="relative mx-auto w-full max-w-[420px]"
         >
 
           {/* Glow */}
@@ -455,23 +455,26 @@ export default function Hero() {
           <div
             className="
               relative
+              mx-auto
+              aspect-[3/4]
+              w-full
               overflow-hidden
               rounded-[2rem]
               border
               border-white/10
               bg-white/5
-              p-4
+              p-3
               shadow-2xl
               backdrop-blur-sm
             "
           >
 
             <Image
-              src="/images/logo.png"
+              src="/images/mahyar-hero.jpg"
               alt="مهیار بیرون‌خو - مشاور تحصیلی و کنکور"
-              width={700}
-              height={700}
-              className="h-auto w-full rounded-2xl object-cover"
+              fill
+              sizes="(max-width: 768px) 90vw, 420px"
+              className="rounded-2xl object-cover"
               priority
             />
 

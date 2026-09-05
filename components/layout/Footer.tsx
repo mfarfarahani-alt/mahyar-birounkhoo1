@@ -1,6 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Phone, MessageCircle, Send } from "lucide-react";
+import { Phone } from "lucide-react";
+import {
+  WhatsAppIcon,
+  TelegramIcon,
+  InstagramIcon,
+  BaleIcon,
+} from "@/components/common/SocialIcons";
 
 const links = [
   { title: "خانه", href: "/" },
@@ -86,7 +92,7 @@ export default function Footer() {
                 className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-slate-300 transition hover:bg-emerald-500 hover:text-white"
                 aria-label="واتساپ"
               >
-                <MessageCircle size={18} />
+                <WhatsAppIcon size={18} />
               </a>
               <a
                 href="https://t.me/HerooAcademy"
@@ -95,25 +101,25 @@ export default function Footer() {
                 className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-slate-300 transition hover:bg-sky-500 hover:text-white"
                 aria-label="تلگرام"
               >
-                <Send size={18} />
+                <TelegramIcon size={18} />
               </a>
               <a
                 href="https://www.instagram.com/heroo_academyy"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-10 items-center justify-center rounded-xl bg-white/5 px-3 text-xs font-black text-slate-300 transition hover:bg-pink-500 hover:text-white"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-slate-300 transition hover:bg-pink-500 hover:text-white"
                 aria-label="اینستاگرام"
               >
-                اینستا
+                <InstagramIcon size={18} />
               </a>
               <a
                 href="https://ble.ir/HerooAcademy"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-10 items-center justify-center rounded-xl bg-white/5 px-3 text-xs font-black text-slate-300 transition hover:bg-blue-600 hover:text-white"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-slate-300 transition hover:bg-blue-600 hover:text-white"
                 aria-label="بله"
               >
-                بله
+                <BaleIcon size={18} />
               </a>
             </div>
           </div>

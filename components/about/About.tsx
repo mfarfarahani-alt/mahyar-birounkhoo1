@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle2, GraduationCap } from "lucide-react";
+import AboutAlbum from "./AboutAlbum";
 
 export default function About() {
   return (
@@ -11,38 +12,47 @@ export default function About() {
       <div className="mx-auto max-w-7xl">
         <div className="grid items-center gap-14 lg:grid-cols-2">
 
-          {/* تصویر */}
-          <div className="relative mx-auto w-full max-w-xl">
-            <div className="absolute -right-5 -top-5 h-32 w-32 rounded-full bg-amber-400/20 blur-3xl" />
+          {/* تصویر + آلبوم */}
+          <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 sm:flex-row sm:items-start">
 
-            <div className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-slate-100 p-3 shadow-2xl">
-              <Image
-                src="/images/mahyar-office.jpg"
-                alt="مهیار بیرون‌خو - مشاور تحصیلی و کنکور"
-                width={900}
-                height={1200}
-                className="h-auto w-full rounded-[1.5rem] object-cover"
-              />
-            </div>
+            <div className="relative w-full flex-1">
+              <div className="absolute -right-5 -top-5 h-32 w-32 rounded-full bg-amber-400/20 blur-3xl" />
 
-            {/* کارت روی تصویر */}
-            <div className="absolute -bottom-6 -left-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-xl sm:-left-8">
-              <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600">
-                  <GraduationCap size={25} />
-                </div>
+              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-[2rem] border border-slate-200 bg-slate-100 p-3 shadow-2xl">
+                <Image
+                  src="/images/mahyar-office.jpg"
+                  alt="مهیار بیرون‌خو - مشاور تحصیلی و کنکور"
+                  fill
+                  sizes="(max-width: 768px) 90vw, 450px"
+                  className="rounded-[1.5rem] object-cover"
+                />
+              </div>
 
-                <div>
-                  <div className="text-xl font-black text-slate-900">
-                    مشاوره تخصصی
+              {/* کارت روی تصویر */}
+              <div className="absolute -bottom-6 -left-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-xl sm:-left-8">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600">
+                    <GraduationCap size={25} />
                   </div>
 
-                  <div className="mt-1 text-xs text-slate-500">
-                    تحصیلی و کنکور
+                  <div>
+                    <div className="text-xl font-black text-slate-900">
+                      مشاوره تخصصی
+                    </div>
+
+                    <div className="mt-1 text-xs text-slate-500">
+                      تحصیلی و کنکور
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+
+            {/* آلبوم تصاویر کنار تصویر اصلی */}
+            <div className="w-full flex-1 sm:mt-2">
+              <AboutAlbum />
+            </div>
+
           </div>
 
           {/* متن */}

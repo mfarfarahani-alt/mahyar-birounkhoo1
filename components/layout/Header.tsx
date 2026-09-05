@@ -33,8 +33,17 @@ export default function Header() {
             />
           </div>
           <div className="min-w-0">
-            <div className="truncate text-sm font-black text-white sm:text-base">
-              مهیار بیرون‌خو
+            <div className="flex flex-wrap items-baseline gap-x-2">
+              <span className="truncate text-sm font-black text-white sm:text-base">
+                مهیار بیرون‌خو
+              </span>
+              <span
+                dir="ltr"
+                style={{ fontFamily: "'Brush Script MT', 'Segoe Script', cursive" }}
+                className="truncate text-sm italic tracking-wide text-amber-400/90 sm:text-base"
+              >
+                Mahyar Bironkhu
+              </span>
             </div>
             <div className="mt-0.5 text-[11px] font-bold text-amber-400 sm:text-xs">
               مشاور تحصیلی و کنکور
