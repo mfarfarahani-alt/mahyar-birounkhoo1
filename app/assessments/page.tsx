@@ -1,4 +1,30 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "آزمون‌های خودشناسی و علاقه‌سنجی",
+  description:
+    "آزمون‌های رایگان خودشناسی برای کمک به انتخاب رشته کنکور: آزمون هالند، MBTI و استرانگ. تیپ شخصیتی و علایق شغلی خود را کشف کنید.",
+  keywords: [
+    "آزمون خودشناسی",
+    "آزمون هالند",
+    "آزمون MBTI",
+    "آزمون استرانگ",
+    "تست شخصیت شناسی",
+    "انتخاب رشته",
+    "مهیار بیرون‌خو",
+  ],
+  alternates: {
+    canonical: "/assessments",
+  },
+  openGraph: {
+    title: "آزمون‌های خودشناسی و علاقه‌سنجی | مهیار بیرون‌خو",
+    description:
+      "آزمون‌های رایگان هالند، MBTI و استرانگ برای کمک به انتخاب رشته کنکور.",
+    url: "/assessments",
+    type: "website",
+  },
+};
 
 export default function AssessmentsPage() {
   return (

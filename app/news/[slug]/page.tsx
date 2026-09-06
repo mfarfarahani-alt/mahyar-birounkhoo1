@@ -321,6 +321,56 @@ function getNewsHref(
 
 
 // ============================================================
+// متادیتای پویا برای هر خبر (سئو + پیش‌نمایش شبکه‌های اجتماعی)
+// ============================================================
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{
+    slug: string;
+  }>;
+}) {
+  const { slug } = await params;
+  const news = await getNewsItem(slug);
+
+  if (!news) {
+    return {
+      title: "خبر یافت نشد",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const description =
+    (news.summary && news.summary.slice(0, 160)) ||
+    (news.content && news.content.slice(0, 160)) ||
+    "آخرین اخبار کنکور و آموزش‌وپرورش از مهیار بیرون‌خو.";
+
+  const href = getNewsHref(news);
+
+  return {
+    title: news.title,
+    description,
+    alternates: {
+      canonical: href,
+    },
+    openGraph: {
+      title: news.title,
+      description,
+      url: href,
+      type: "article",
+      images: news.image ? [{ url: news.image }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: news.title,
+      description,
+      images: news.image ? [news.image] : undefined,
+    },
+  };
+}
+
+// ============================================================
 // صفحه خبر
 // ============================================================
 
@@ -404,6 +454,36 @@ export default async function NewsDetailPage({
 
 
   // ==========================================================
+  // داده‌ساختاریافته (Article JSON-LD) برای این خبر
+  // ==========================================================
+
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    headline: news.title,
+    description: news.summary || undefined,
+    image: news.image ? [news.image] : undefined,
+    datePublished: news.date || undefined,
+    dateModified: news.date || undefined,
+    author: {
+      "@type": "Person",
+      name: "مهیار بیرون‌خو",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "مهیار بیرون‌خو",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://www.mahyar-bironkhu.ir/images/logo.png",
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://www.mahyar-bironkhu.ir${getNewsHref(news)}`,
+    },
+  };
+
+  // ==========================================================
   // صفحه اصلی خبر
   // ==========================================================
 
@@ -412,6 +492,13 @@ export default async function NewsDetailPage({
       dir="rtl"
       className="min-h-screen bg-slate-50"
     >
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(articleJsonLd),
+        }}
+      />
 
       {/* ======================================================
           Container
