@@ -232,7 +232,7 @@ export default async function Home() {
               </p>
 
               <Link
-                href="/assessments?test=holland"
+                href="/assessments/holland"
                 className="mt-6 inline-flex rounded-xl bg-slate-900 px-5 py-3 font-bold text-white transition hover:bg-blue-700"
               >
                 شروع آزمون
@@ -261,7 +261,7 @@ export default async function Home() {
               </p>
 
               <Link
-                href="/assessments?test=mbti"
+                href="/assessments/mbti"
                 className="mt-6 inline-flex rounded-xl bg-slate-900 px-5 py-3 font-bold text-white transition hover:bg-blue-700"
               >
                 شروع آزمون
@@ -291,7 +291,7 @@ export default async function Home() {
               </p>
 
               <Link
-                href="/assessments?test=strong"
+                href="/assessments/strong"
                 className="mt-6 inline-flex rounded-xl bg-slate-900 px-5 py-3 font-bold text-white transition hover:bg-blue-700"
               >
                 شروع آزمون

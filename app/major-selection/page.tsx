@@ -81,19 +81,19 @@ function HeartIcon(props: { size?: number; className?: string }) {
 const tests = [
   {
     title: "آزمون هالند",
-    href: "/assessments?test=holland",
+    href: "/assessments/holland",
     desc: "شناخت علایق شغلی و تحصیلی بر اساس الگوی RIASEC",
     emoji: "🎯",
   },
   {
     title: "آزمون MBTI",
-    href: "/assessments?test=mbti",
+    href: "/assessments/mbti",
     desc: "آشنایی با ترجیحات شخصیتی و سبک تصمیم‌گیری",
     emoji: "🧠",
   },
   {
     title: "آزمون استرانگ",
-    href: "/assessments?test=strong",
+    href: "/assessments/strong",
     desc: "بررسی علایق حرفه‌ای برای مسیر تحصیلی و شغلی",
     emoji: "🏆",
   },
