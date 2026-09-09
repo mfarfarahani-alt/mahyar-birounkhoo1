@@ -14,6 +14,8 @@ const links = [
   { title: "خدمات", href: "/#services" },
   { title: "آزمون‌ها", href: "/assessments" },
   { title: "اخبار", href: "/news" },
+  { title: "رتبه‌های برتر", href: "/students" },
+  { title: "مشاور کنکور شهرری", href: "/moshaver-konkur-shahre-rey" },
   { title: "رزرو مشاوره", href: "/#reservation" },
   { title: "تماس", href: "/#contact" },
 ];
