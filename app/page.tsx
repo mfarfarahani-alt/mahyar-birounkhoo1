@@ -4,6 +4,7 @@ import About from "@/components/about/About";
 import ExamCountdown from "@/components/home/ExamCountdown";
 import Services from "@/components/consultation/Services";
 import Reservation from "@/components/reservation/Reservation";
+import Reviews from "@/components/reviews/Reviews";
 import Contact from "@/components/contact/Contact";
 import Link from "next/link";
 
@@ -173,6 +174,12 @@ export default async function Home() {
       {/* =====================================================
           رتبه‌های برتر (فعلاً غیرفعال - در حال اصلاح)
          ===================================================== */}
+
+      {/* =====================================================
+          نظرات مراجعان
+         ===================================================== */}
+
+      <Reviews />
 
       {/* =====================================================
           اخبار

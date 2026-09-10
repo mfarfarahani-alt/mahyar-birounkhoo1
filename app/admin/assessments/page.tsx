@@ -14,6 +14,7 @@ import {
   ArrowRight,
   LogOut,
   Newspaper,
+  MessageSquareQuote,
   CalendarCheck,
   ChevronDown,
   Award,
@@ -266,6 +267,13 @@ export default function AdminAssessmentsPage() {
             >
               <Newspaper size={16} />
               <span>اخبار</span>
+            </Link>
+            <Link
+              href="/admin/reviews"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600 transition hover:border-amber-300 hover:text-amber-700 sm:px-4 sm:text-sm"
+            >
+              <MessageSquareQuote size={16} />
+              <span>نظرات</span>
             </Link>
             <Link
               href="/"
