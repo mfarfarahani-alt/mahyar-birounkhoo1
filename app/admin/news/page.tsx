@@ -22,6 +22,7 @@ import {
   PlusCircle,
   Send,
   X,
+  MessageSquareQuote,
 } from "lucide-react";
 
 type NewsItem = {
@@ -461,6 +462,13 @@ export default function AdminNewsPage() {
           </div>
 
           <div className="flex flex-wrap items-center justify-end gap-2">
+            <Link
+              href="/admin/reviews"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600 transition hover:border-amber-300 hover:text-amber-700 sm:px-4 sm:text-sm"
+            >
+              <MessageSquareQuote size={16} />
+              <span>نظرات</span>
+            </Link>
             <Link
               href="/admin/assessments"
               className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600 transition hover:border-amber-300 hover:text-amber-700 sm:px-4 sm:text-sm"
