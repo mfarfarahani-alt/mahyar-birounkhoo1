@@ -77,13 +77,90 @@ export async function GET(request: NextRequest) {
 }
 
 // ======================================================
-// POST — تأیید / رد / حذف خبر
+// POST — تأیید / رد / حذف / دریافت خودکار / ثبت دستی خبر
 // ======================================================
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
+    // --- دریافت خودکار اخبار از منابع ---
+    if (body.action === "fetch") {
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "fetchNews" }),
+        cache: "no-store",
+        redirect: "follow",
+      });
+
+      const text = await response.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        console.error("Google Apps Script fetchNews response:", text);
+        return NextResponse.json(
+          {
+            success: false,
+            message: "پاسخ Google Apps Script قابل پردازش نیست.",
+          },
+          { status: 500 }
+        );
+      }
+      return NextResponse.json(data);
+    }
+
+    // --- ثبت دستی خبر توسط مدیر ---
+    if (body.action === "create") {
+      if (!body.title || !String(body.title).trim()) {
+        return NextResponse.json(
+          { success: false, message: "عنوان خبر الزامی است." },
+          { status: 400 }
+        );
+      }
+
+      const payload = {
+        type: "news",
+        title: String(body.title || "").trim(),
+        summary: String(body.summary || body.content || "").trim(),
+        content: String(body.content || body.summary || "").trim(),
+        source: String(body.source || "مدیریت سایت").trim(),
+        category: String(body.category || "اطلاعیه").trim(),
+        sourceUrl: String(body.sourceUrl || "").trim(),
+        status:
+          body.publish === true || body.status === "approved"
+            ? "approved"
+            : "pending",
+        image: String(body.image || "").trim(),
+      };
+
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        cache: "no-store",
+        redirect: "follow",
+      });
+
+      const text = await response.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        console.error("Google Apps Script create news response:", text);
+        return NextResponse.json(
+          {
+            success: false,
+            message: "پاسخ Google Apps Script قابل پردازش نیست.",
+          },
+          { status: 500 }
+        );
+      }
+      return NextResponse.json(data);
+    }
+
+    // --- تأیید / رد / حذف ---
     if (!body.action) {
       return NextResponse.json(
         {
@@ -104,7 +181,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // نگاشت action به مقادیر Apps Script
     const actionMap: Record<string, string> = {
       approve: "approve",
       reject: "reject",

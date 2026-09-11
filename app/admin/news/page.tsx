@@ -8,7 +8,6 @@ import {
   Trash2,
   RefreshCw,
   Newspaper,
-  MessageSquareQuote,
   Clock,
   CheckCircle,
   Ban,
@@ -20,6 +19,9 @@ import {
   LogOut,
   CalendarCheck,
   ClipboardList,
+  PlusCircle,
+  Send,
+  X,
 } from "lucide-react";
 
 type NewsItem = {
@@ -45,6 +47,16 @@ const CATEGORIES = [
   "انتخاب رشته",
   "نتایج",
   "اطلاعیه",
+  "برنامه مطالعاتی",
+];
+
+const CREATE_CATEGORIES = [
+  "اطلاعیه",
+  "کنکور",
+  "سازمان سنجش",
+  "آموزش و پرورش",
+  "انتخاب رشته",
+  "نتایج",
   "برنامه مطالعاتی",
 ];
 
@@ -99,6 +111,15 @@ export default function AdminNewsPage() {
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [fetchingSources, setFetchingSources] = useState(false);
+
+  // فرم درج دستی خبر
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [createTitle, setCreateTitle] = useState("");
+  const [createContent, setCreateContent] = useState("");
+  const [createCategory, setCreateCategory] = useState("اطلاعیه");
+  const [createPublish, setCreatePublish] = useState(true);
+  const [creating, setCreating] = useState(false);
 
   async function loadNews() {
     try {
@@ -158,6 +179,125 @@ export default function AdminNewsPage() {
       );
     } finally {
       setLoading(false);
+    }
+  }
+
+  /** بروزرسانی کامل: ابتدا دریافت خودکار از منابع، سپس بارگذاری لیست */
+  async function handleRefresh() {
+    try {
+      setFetchingSources(true);
+      setError("");
+      setMessage("");
+
+      // ۱) درخواست دریافت خودکار اخبار از منابع (سازمان سنجش، هیوا و ...)
+      const fetchRes = await fetch("/api/admin/news", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "fetch" }),
+        cache: "no-store",
+      });
+
+      const fetchText = await fetchRes.text();
+      let fetchData: any;
+      try {
+        fetchData = JSON.parse(fetchText);
+      } catch {
+        // حتی اگر پاسخ قابل‌پردازش نباشد، لیست را دوباره بارگذاری می‌کنیم
+      }
+
+      if (fetchData?.success === false) {
+        setMessage(
+          "دریافت از منابع با مشکل مواجه شد، اما لیست فعلی بارگذاری می‌شود."
+        );
+      } else {
+        setMessage(
+          fetchData?.message ||
+            "دریافت خودکار انجام شد. در حال بارگذاری لیست..."
+        );
+      }
+    } catch (err) {
+      console.error("Fetch sources error:", err);
+      setMessage(
+        "اتصال به منابع با خطا مواجه شد. لیست فعلی از شیت بارگذاری می‌شود."
+      );
+    } finally {
+      setFetchingSources(false);
+    }
+
+    // ۲) بارگذاری مجدد لیست از شیت
+    await loadNews();
+  }
+
+  async function handleCreateNews(e: React.FormEvent) {
+    e.preventDefault();
+
+    const title = createTitle.trim();
+    const content = createContent.trim();
+
+    if (!title) {
+      setError("عنوان خبر الزامی است.");
+      return;
+    }
+    if (!content) {
+      setError("متن خبر الزامی است.");
+      return;
+    }
+
+    try {
+      setCreating(true);
+      setError("");
+      setMessage("");
+
+      const response = await fetch("/api/admin/news", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "create",
+          title,
+          content,
+          summary: content.slice(0, 200),
+          category: createCategory,
+          publish: createPublish,
+          source: "مدیریت سایت",
+        }),
+      });
+
+      const text = await response.text();
+      let data: any;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error("پاسخ سرور معتبر نیست.");
+      }
+
+      if (!response.ok || data?.success === false) {
+        throw new Error(data?.message || "ثبت خبر انجام نشد.");
+      }
+
+      if (data?.duplicate) {
+        setMessage("این خبر قبلاً ثبت شده است.");
+      } else {
+        setMessage(
+          createPublish
+            ? "خبر با موفقیت ثبت و منتشر شد."
+            : "خبر با موفقیت ثبت شد و در انتظار تأیید است."
+        );
+      }
+
+      setCreateTitle("");
+      setCreateContent("");
+      setCreateCategory("اطلاعیه");
+      setCreatePublish(true);
+      setShowCreateForm(false);
+
+      await loadNews();
+    } catch (err) {
+      console.error("Create news error:", err);
+      setError(
+        err instanceof Error ? err.message : "ثبت خبر انجام نشد."
+      );
+    } finally {
+      setCreating(false);
     }
   }
 
@@ -297,6 +437,8 @@ export default function AdminNewsPage() {
     window.location.href = "/admin/login";
   }
 
+  const isRefreshing = loading || fetchingSources;
+
   return (
     <main
       dir="rtl"
@@ -334,13 +476,6 @@ export default function AdminNewsPage() {
               <span>رزروها</span>
             </Link>
             <Link
-              href="/admin/reviews"
-              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600 transition hover:border-amber-300 hover:text-amber-700 sm:px-4 sm:text-sm"
-            >
-              <MessageSquareQuote size={16} />
-              <span>نظرات</span>
-            </Link>
-            <Link
               href="/"
               className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600 transition hover:border-amber-300 hover:text-amber-700 sm:px-4 sm:text-sm"
             >
@@ -350,15 +485,17 @@ export default function AdminNewsPage() {
             </Link>
             <button
               type="button"
-              onClick={loadNews}
-              disabled={loading}
+              onClick={handleRefresh}
+              disabled={isRefreshing}
               className="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-3 py-2 text-xs font-bold text-white transition hover:bg-slate-800 disabled:opacity-60 sm:px-4 sm:text-sm"
             >
               <RefreshCw
                 size={16}
-                className={loading ? "animate-spin" : ""}
+                className={isRefreshing ? "animate-spin" : ""}
               />
-              <span className="hidden sm:inline">بروزرسانی</span>
+              <span className="hidden sm:inline">
+                {fetchingSources ? "دریافت از منابع..." : "بروزرسانی"}
+              </span>
             </button>
             <button
               type="button"
@@ -373,19 +510,130 @@ export default function AdminNewsPage() {
       </div>
 
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <header className="mb-8">
-          <span className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-bold text-amber-700">
-            <Newspaper size={14} />
-            مدیریت محتوا
-          </span>
-          <h1 className="mt-3 text-3xl font-black text-slate-900 md:text-4xl">
-            پنل مدیریت اخبار
-          </h1>
-          <p className="mt-2 max-w-xl text-sm leading-7 text-slate-500">
-            اخبار کنکور، سازمان سنجش و آموزش و پرورش را بررسی،
-            تأیید یا رد کنید.
-          </p>
+        <header className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-bold text-amber-700">
+              <Newspaper size={14} />
+              مدیریت محتوا
+            </span>
+            <h1 className="mt-3 text-3xl font-black text-slate-900 md:text-4xl">
+              پنل مدیریت اخبار
+            </h1>
+            <p className="mt-2 max-w-xl text-sm leading-7 text-slate-500">
+              اخبار کنکور، سازمان سنجش و آموزش و پرورش را بررسی،
+              تأیید یا رد کنید. همچنین می‌توانید خبر جدید ثبت کنید.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowCreateForm((v) => !v)}
+            className="inline-flex items-center gap-2 rounded-2xl bg-amber-500 px-5 py-3 text-sm font-black text-white shadow-lg shadow-amber-500/25 transition hover:bg-amber-600"
+          >
+            {showCreateForm ? (
+              <>
+                <X size={18} />
+                بستن فرم
+              </>
+            ) : (
+              <>
+                <PlusCircle size={18} />
+                درج خبر جدید
+              </>
+            )}
+          </button>
         </header>
+
+        {/* فرم درج دستی خبر */}
+        {showCreateForm && (
+          <section className="mb-8 rounded-3xl border border-amber-200/80 bg-gradient-to-br from-amber-50/80 to-white p-5 shadow-sm md:p-6">
+            <div className="mb-5 flex items-center gap-2 text-slate-800">
+              <PlusCircle size={18} className="text-amber-600" />
+              <h2 className="text-base font-black">ثبت خبر توسط مدیریت</h2>
+            </div>
+
+            <form onSubmit={handleCreateNews} className="space-y-4">
+              <div>
+                <label className="mb-1.5 block text-sm font-bold text-slate-700">
+                  عنوان خبر <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={createTitle}
+                  onChange={(e) => setCreateTitle(e.target.value)}
+                  placeholder="عنوان خبر را وارد کنید..."
+                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-amber-400 focus:ring-4 focus:ring-amber-100"
+                  maxLength={200}
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="mb-1.5 block text-sm font-bold text-slate-700">
+                  متن خبر <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  value={createContent}
+                  onChange={(e) => setCreateContent(e.target.value)}
+                  placeholder="متن کامل خبر را بنویسید..."
+                  rows={5}
+                  className="w-full resize-y rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium leading-7 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-amber-400 focus:ring-4 focus:ring-amber-100"
+                  required
+                />
+              </div>
+
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
+                <div className="flex-1">
+                  <label className="mb-1.5 block text-sm font-bold text-slate-700">
+                    دسته‌بندی
+                  </label>
+                  <select
+                    value={createCategory}
+                    onChange={(e) => setCreateCategory(e.target.value)}
+                    className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 outline-none transition focus:border-amber-400 focus:ring-4 focus:ring-amber-100"
+                  >
+                    {CREATE_CATEGORIES.map((c) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <label className="flex cursor-pointer items-center gap-2.5 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700">
+                  <input
+                    type="checkbox"
+                    checked={createPublish}
+                    onChange={(e) => setCreatePublish(e.target.checked)}
+                    className="h-4 w-4 rounded border-slate-300 text-amber-500 focus:ring-amber-400"
+                  />
+                  انتشار فوری در سایت
+                </label>
+              </div>
+
+              <div className="flex flex-wrap gap-3 pt-1">
+                <button
+                  type="submit"
+                  disabled={creating}
+                  className="inline-flex items-center gap-2 rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-black text-white transition hover:bg-emerald-700 disabled:opacity-60"
+                >
+                  <Send size={16} />
+                  {creating ? "در حال ثبت..." : "ثبت و انتشار"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowCreateForm(false);
+                    setCreateTitle("");
+                    setCreateContent("");
+                  }}
+                  className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-600 transition hover:bg-slate-50"
+                >
+                  انصراف
+                </button>
+              </div>
+            </form>
+          </section>
+        )}
 
         <section className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-sm">
