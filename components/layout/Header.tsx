@@ -12,6 +12,7 @@ const menuItems = [
   { title: "انتخاب رشته", href: "/major-selection" },
   { title: "آزمون‌ها", href: "/assessments" },
   { title: "اخبار", href: "/news" },
+  { title: "مقالات", href: "/articles" },
   { title: "تماس", href: "/#contact" },
 ];
 
