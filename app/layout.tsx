@@ -17,11 +17,7 @@ const SITE_URL = "https://www.mahyar-bironkhu.ir";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-verification: {
-  other: {
-    "msvalidate.01": "7652ADED1C4EE0A713939F63E32097F0",
-  },
-},
+
   title: {
     default: "مشاوره کنکور و برنامه‌ریزی تحصیلی | مهیار بیرون‌خو",
     template: "%s | مهیار بیرون‌خو",
@@ -167,11 +163,16 @@ export default function RootLayout({
   return (
     <html lang="fa" dir="rtl" className={vazir.variable}>
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      </head>
+  <meta
+    name="msvalidate.01"
+    content="7652ADED1C4EE0A713939F63E32097F0"
+  />
+
+  <script
+    type="application/ld+json"
+    dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+  />
+</head>
       <body className="min-h-screen bg-[var(--background)] text-[var(--foreground)] antialiased">
         <Header />
         {children}
