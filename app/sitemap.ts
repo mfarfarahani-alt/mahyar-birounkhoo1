@@ -3,7 +3,6 @@ import { MetadataRoute } from "next";
 // ============================================================
 // آدرس اصلی سایت
 // ============================================================
-
 const BASE_URL = "https://www.mahyar-bironkhu.ir";
 
 const GOOGLE_SCRIPT_URL =
@@ -20,7 +19,6 @@ type NewsItem = {
 // ============================================================
 // دریافت لیست اخبار تأییدشده برای افزودن به sitemap
 // ============================================================
-
 async function getNewsEntries(): Promise<MetadataRoute.Sitemap> {
   try {
     const response = await fetch(
@@ -79,7 +77,6 @@ async function getNewsEntries(): Promise<MetadataRoute.Sitemap> {
 // ============================================================
 // sitemap
 // ============================================================
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     {
@@ -112,6 +109,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "daily",
       priority: 0.9,
     },
+    // ---- مقالات (جدید) ----
+    {
+      url: `${BASE_URL}/articles`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    {
+      url: `${BASE_URL}/articles/tarahi-barname-moshavere-hamdeli-digital`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    // ------------------------
     {
       url: `${BASE_URL}/assessments`,
       lastModified: new Date(),
