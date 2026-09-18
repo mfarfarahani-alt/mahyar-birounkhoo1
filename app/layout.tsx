@@ -21,12 +21,6 @@ export const metadata: Metadata = {
     default: "مشاوره کنکور و برنامه‌ریزی تحصیلی | مهیار بیرون‌خو",
     template: "%s | مهیار بیرون‌خو",
   },
-verification: {
-  other: {
-    "msvalidate.01": "7652ADED1C4EE0A713939F63E32097F0", // بینگ (قبلی)
-    "yandex-verification": "کد-تأیید-Yandex-را-اینجا-بگذارید",
-  },
-},
   description:
     "مشاوره تخصصی کنکور با برنامه‌ریزی شخصی، تحلیل آزمون و پیگیری مستمر. بیش از ۷ سال سابقه در مدارس مطرح تهران و رتبه برتر فرهنگیان. رزرو آنلاین مشاوره با مهیار بیرون‌خو.",
   keywords: [
@@ -93,10 +87,11 @@ verification: {
   formatDetection: {
     telephone: true,
   },
-  // تأیید مالکیت سایت در Bing Webmaster Tools
+  // تأیید مالکیت سایت در Bing و Yandex
   verification: {
     other: {
-      "msvalidate.01": "7652ADED1C4EE0A713939F63E32097F0",
+      "msvalidate.01": "7652ADED1C4EE0A713939F63E32097F0", // بینگ
+      // "yandex-verification": "کد-واقعی-یاندکس-را-اینجا-بگذارید",
     },
   },
 };
