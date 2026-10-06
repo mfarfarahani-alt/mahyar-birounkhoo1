@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { NextRequest, NextResponse } from "next/server";
+=======
+import { NextResponse } from "next/server";
+>>>>>>> c1d8c1d8c60c0ae17fe0e968c5bd8642c1f08cf7
 
 const GOOGLE_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbwqdva3YX0BihDGOj_g0JRLUj_UmzKObvAKU1iIk5YGn0LbEF3XkI1yAfsTDlIpfnAWGg/exec";
@@ -36,6 +40,7 @@ export async function GET() {
     );
   }
 }
+<<<<<<< HEAD
 
 // POST — ثبت نظر جدید (وضعیت پیش‌فرض: pending تا مدیر تأیید کند)
 export async function POST(request: NextRequest) {
@@ -99,3 +104,5 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+=======
+>>>>>>> c1d8c1d8c60c0ae17fe0e968c5bd8642c1f08cf7
