@@ -1,0 +1,73 @@
+============================================================
+تغییرات لازم در Google Apps Script
+برای کار کردن پنل ادمین اخبار
+============================================================
+
+۱) داخل تابع doGet این بخش را اضافه کنید
+   (بعد از چک action === "getNews"):
+
+    if (action === "getAllNews") {
+      return getAllNews();
+    }
+
+
+۲) این تابع جدید را به اسکریپت اضافه کنید
+   (می‌توانید بعد از تابع getNews قرار دهید):
+
+
+function getAllNews() {
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = spreadsheet.getSheetByName(NEWS_SHEET_NAME);
+
+  if (!sheet) {
+    throw new Error("شیت «اخبار» پیدا نشد.");
+  }
+
+  const values = sheet.getDataRange().getValues();
+
+  if (values.length <= 1) {
+    return jsonResponse({
+      success: true,
+      news: []
+    });
+  }
+
+  const news = [];
+
+  for (let i = 1; i < values.length; i++) {
+    const row = values[i];
+
+    const status = String(row[7] || "pending")
+      .trim()
+      .toLowerCase();
+
+    // همه وضعیت‌ها برگردانده می‌شوند (برخلاف getNews)
+    news.push({
+      rowNumber: i + 1,
+      date: formatDate(row[0]),
+      title: row[1] || "",
+      summary: row[2] || "",
+      content: row[3] || "",
+      source: row[4] || "",
+      category: row[5] || "",
+      sourceUrl: row[6] || "",
+      status: status,
+      image: row[8] || "",
+      id: String(row[9] || ""),
+      slug: createSlug(row[1] || "")
+    });
+  }
+
+  news.reverse();
+
+  return jsonResponse({
+    success: true,
+    news: news
+  });
+}
+
+
+۳) بعد از ذخیره، یک بار Deploy جدید بگیرید
+   (Deploy → New deployment یا Manage deployments → Edit → New version)
+
+============================================================
