@@ -2,18 +2,46 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Menu, X, Phone, ChevronDown, Percent, Timer, BookOpen } from "lucide-react";
+import {
+  Menu,
+  X,
+  Phone,
+  ChevronDown,
+  Percent,
+  Timer,
+  BookOpen,
+  Package,
+  FileText,
+} from "lucide-react";
 import { useState } from "react";
 
-const menuItems = [
+const menuBefore = [
   { title: "خانه", href: "/" },
   { title: "درباره من", href: "/#about" },
   { title: "برنامه‌ریزی", href: "/planning" },
-  { title: "انتخاب رشته", href: "/major-selection" },
+];
+
+const menuAfter = [
   { title: "آزمون‌ها", href: "/assessments" },
+  { title: "افتخارات", href: "/students" },
   { title: "اخبار", href: "/news" },
   { title: "مقالات", href: "/articles" },
   { title: "تماس", href: "/#contact" },
+];
+
+const majorSelectionItems = [
+  {
+    title: "پکیج‌های انتخاب رشته",
+    href: "/major-selection#packages",
+    icon: Package,
+    description: "بسته ویژه انتخاب رشته آزاد و سراسری",
+  },
+  {
+    title: "توضیحات رشته‌های دانشگاهی",
+    href: "/major-selection#majors-guide",
+    icon: FileText,
+    description: "معرفی رشته‌های ریاضی، تجربی و انسانی",
+  },
 ];
 
 const konkurTools = [
@@ -40,7 +68,9 @@ const konkurTools = [
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
+  const [majorOpen, setMajorOpen] = useState(false);
   const [mobileToolsOpen, setMobileToolsOpen] = useState(false);
+  const [mobileMajorOpen, setMobileMajorOpen] = useState(false);
 
   return (
     <header dir="rtl" className="site-header sticky top-0 z-50 border-b shadow-lg">
@@ -77,7 +107,7 @@ export default function Header() {
 
         <div className="hidden items-center gap-1 xl:flex">
           <nav className="flex items-center gap-1">
-            {menuItems.slice(0, 4).map((item) => (
+            {menuBefore.map((item) => (
               <Link
                 key={item.title}
                 href={item.href}
@@ -86,6 +116,52 @@ export default function Header() {
                 {item.title}
               </Link>
             ))}
+
+            {/* منوی کشویی انتخاب رشته */}
+            <div
+              className="relative"
+              onMouseEnter={() => setMajorOpen(true)}
+              onMouseLeave={() => setMajorOpen(false)}
+            >
+              <button
+                type="button"
+                onClick={() => setMajorOpen((prev) => !prev)}
+                className="flex items-center gap-1 rounded-lg px-3 py-2 text-[13px] font-bold text-slate-200 transition hover:bg-white/5 hover:text-amber-400"
+                aria-expanded={majorOpen}
+              >
+                انتخاب رشته
+                <ChevronDown
+                  size={14}
+                  className={`transition-transform ${majorOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+
+              {majorOpen && (
+                <div className="absolute right-0 top-full z-50 w-72 rounded-2xl border border-white/10 bg-[#0e1b33] p-2 shadow-2xl">
+                  {majorSelectionItems.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <Link
+                        key={item.title}
+                        href={item.href}
+                        onClick={() => setMajorOpen(false)}
+                        className="flex items-start gap-3 rounded-xl px-3 py-3 transition hover:bg-white/5"
+                      >
+                        <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-400/10 text-amber-400">
+                          <Icon size={17} />
+                        </div>
+                        <div>
+                          <div className="text-[13px] font-bold text-white">{item.title}</div>
+                          <div className="mt-0.5 text-[11px] leading-5 text-slate-400">
+                            {item.description}
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
 
             {/* منوی کشویی ابزار کنکور */}
             <div
@@ -110,7 +186,6 @@ export default function Header() {
                 <div className="absolute right-0 top-full z-50 w-72 rounded-2xl border border-white/10 bg-[#0e1b33] p-2 shadow-2xl">
                   {konkurTools.map((tool) => {
                     const Icon = tool.icon;
-
                     return (
                       <Link
                         key={tool.title}
@@ -121,11 +196,8 @@ export default function Header() {
                         <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-400/10 text-amber-400">
                           <Icon size={17} />
                         </div>
-
                         <div>
-                          <div className="text-[13px] font-bold text-white">
-                            {tool.title}
-                          </div>
+                          <div className="text-[13px] font-bold text-white">{tool.title}</div>
                           <div className="mt-0.5 text-[11px] leading-5 text-slate-400">
                             {tool.description}
                           </div>
@@ -137,7 +209,7 @@ export default function Header() {
               )}
             </div>
 
-            {menuItems.slice(4).map((item) => (
+            {menuAfter.map((item) => (
               <Link
                 key={item.title}
                 href={item.href}
@@ -171,7 +243,7 @@ export default function Header() {
       {isOpen && (
         <div className="site-mobile-menu border-t px-5 py-4 xl:hidden">
           <nav className="mx-auto flex max-w-7xl flex-col gap-1">
-            {menuItems.slice(0, 4).map((item) => (
+            {menuBefore.map((item) => (
               <Link
                 key={item.title}
                 href={item.href}
@@ -181,6 +253,42 @@ export default function Header() {
                 {item.title}
               </Link>
             ))}
+
+            {/* منوی انتخاب رشته - موبایل */}
+            <button
+              type="button"
+              onClick={() => setMobileMajorOpen((prev) => !prev)}
+              className="flex items-center justify-between rounded-xl px-4 py-3 text-right text-sm font-bold text-slate-100 transition hover:bg-amber-500/10 hover:text-amber-400"
+              aria-expanded={mobileMajorOpen}
+            >
+              انتخاب رشته
+              <ChevronDown
+                size={16}
+                className={`transition-transform ${mobileMajorOpen ? "rotate-180" : ""}`}
+              />
+            </button>
+
+            {mobileMajorOpen && (
+              <div className="mb-1 mr-2 flex flex-col gap-1 border-r border-amber-400/20 pr-3">
+                {majorSelectionItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={item.title}
+                      href={item.href}
+                      onClick={() => {
+                        setIsOpen(false);
+                        setMobileMajorOpen(false);
+                      }}
+                      className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-[13px] font-bold text-slate-300 transition hover:bg-amber-500/10 hover:text-amber-400"
+                    >
+                      <Icon size={15} />
+                      {item.title}
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
 
             {/* منوی ابزار کنکور - موبایل */}
             <button
@@ -200,7 +308,6 @@ export default function Header() {
               <div className="mb-1 mr-2 flex flex-col gap-1 border-r border-amber-400/20 pr-3">
                 {konkurTools.map((tool) => {
                   const Icon = tool.icon;
-
                   return (
                     <Link
                       key={tool.title}
@@ -219,7 +326,7 @@ export default function Header() {
               </div>
             )}
 
-            {menuItems.slice(4).map((item) => (
+            {menuAfter.map((item) => (
               <Link
                 key={item.title}
                 href={item.href}

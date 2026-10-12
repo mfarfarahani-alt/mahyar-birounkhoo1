@@ -7,20 +7,21 @@ import { Trophy, ArrowLeft, X, Shield } from "lucide-react";
 
 export type RankItem = {
   file: string;
-  field: string;
-  year: string;
   note: string;
 };
 
 const ranks: RankItem[] = [
-  { file: "rank_01.jpg", field: "علوم تجربی", year: "۱۴۰۴", note: "کارنامه نهایی فرهنگیان" },
-  { file: "rank_02.jpg", field: "زبان‌های خارجی", year: "۱۴۰۴", note: "کارنامه نهایی فرهنگیان" },
-  { file: "rank_03.jpg", field: "علوم انسانی", year: "۱۴۰۴", note: "کارنامه نهایی فرهنگیان" },
-  { file: "rank_04.jpg", field: "علوم انسانی", year: "۱۴۰۴", note: "کارنامه نهایی فرهنگیان" },
-  { file: "rank_05.jpg", field: "علوم انسانی", year: "۱۴۰۴", note: "کارنامه نهایی فرهنگیان" },
-  { file: "rank_06.jpg", field: "علوم تجربی", year: "۱۴۰۴", note: "کارنامه نهایی فرهنگیان" },
-  { file: "rank_07.jpg", field: "علوم تجربی", year: "۱۴۰۴", note: "کارنامه نهایی فرهنگیان" },
-  { file: "rank_08.jpg", field: "علوم انسانی", year: "۱۴۰۴", note: "کارنامه نهایی فرهنگیان" },
+  { file: "honor_01.jpg", note: "نمونه کارنامه و نتیجه" },
+  { file: "honor_02.jpg", note: "نمونه کارنامه و نتیجه" },
+  { file: "honor_03.jpg", note: "نمونه کارنامه و نتیجه" },
+  { file: "honor_04.jpg", note: "نمونه کارنامه و نتیجه" },
+  { file: "honor_05.jpg", note: "نمونه کارنامه و نتیجه" },
+  { file: "honor_06.jpg", note: "نمونه کارنامه و نتیجه" },
+  { file: "honor_07.jpg", note: "نمونه کارنامه و نتیجه" },
+  { file: "honor_08.jpg", note: "نمونه کارنامه و نتیجه" },
+  { file: "honor_09.jpg", note: "نمونه کارنامه و نتیجه" },
+  { file: "honor_10.jpg", note: "نمونه کارنامه و نتیجه" },
+  { file: "honor_11.jpg", note: "نمونه کارنامه و نتیجه" },
 ];
 
 type Props = {
@@ -42,14 +43,16 @@ export default function TopRanks({ limit, showMoreLink = false }: Props) {
             افتخارات مشاوره‌ای
           </span>
           <h2 className="mt-5 text-3xl font-black text-[#0b1f3a] md:text-4xl">
-            رتبه‌های برتر
+            افتخارات
           </h2>
           <p className="mt-4 leading-8 text-slate-600">
-            نمونه‌ای از نتایج پذیرفته‌شدگان آزمون اختصاصی فرهنگیان که با برنامه‌ریزی و مشاوره مسیر موفقیت را طی کرده‌اند.
+            نمونه‌ای از نتایج پذیرفته‌شدگان و موفقیت‌های دانش‌آموزانی که با
+            برنامه‌ریزی و مشاوره مسیر موفقیت را طی کرده‌اند.
           </p>
-          <p className="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-slate-500">
-            <Shield size={14} className="text-[#c99a2e]" />
-            مشخصات شخصی دانش‌آموزان به‌منظور حفظ حریم خصوصی مخفی شده است.
+          <p className="mt-3 inline-flex max-w-2xl items-start gap-2 rounded-2xl border border-amber-200/80 bg-amber-50 px-4 py-3 text-sm font-bold leading-7 text-slate-700">
+            <Shield size={18} className="mt-0.5 shrink-0 text-[#c99a2e]" />
+            برای حفظ حریم خصوصی داوطلبان از درج نام و عکس آنان خودداری گردیده ولی
+            تمام کارنامه‌ها واقعی می‌باشد.
           </p>
         </div>
 
@@ -63,8 +66,8 @@ export default function TopRanks({ limit, showMoreLink = false }: Props) {
             >
               <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl bg-slate-50">
                 <Image
-                  src={`/images/ranks/${item.file}`}
-                  alt={`${item.note} - ${item.field}`}
+                  src={`/images/honors/${item.file}`}
+                  alt={item.note}
                   fill
                   sizes="(max-width: 639px) 92vw, (max-width: 1023px) 45vw, 30vw"
                   className="object-contain object-top p-1 transition duration-500 group-hover:scale-[1.02]"
@@ -72,10 +75,6 @@ export default function TopRanks({ limit, showMoreLink = false }: Props) {
               </div>
               <div className="px-2 py-3">
                 <div className="text-sm font-black text-[#0b1f3a]">{item.note}</div>
-                <div className="mt-1 flex flex-wrap items-center gap-2 text-xs font-bold text-slate-600">
-                  <span className="rounded-lg bg-amber-50 px-2 py-1 text-amber-800">{item.field}</span>
-                  <span className="rounded-lg bg-slate-100 px-2 py-1">{item.year}</span>
-                </div>
               </div>
             </button>
           ))}
@@ -87,7 +86,7 @@ export default function TopRanks({ limit, showMoreLink = false }: Props) {
               href="/students"
               className="inline-flex items-center gap-2 rounded-xl bg-[#0b1f3a] px-7 py-4 font-black text-white shadow-lg transition hover:bg-[#15365d]"
             >
-              مشاهده همه رتبه‌ها
+              مشاهده همه افتخارات
               <ArrowLeft size={18} />
             </Link>
           </div>
@@ -115,8 +114,8 @@ export default function TopRanks({ limit, showMoreLink = false }: Props) {
             </button>
             <div className="relative mx-auto min-h-[50vh] w-full">
               <Image
-                src={`/images/ranks/${active.file}`}
-                alt={`${active.note} - ${active.field}`}
+                src={`/images/honors/${active.file}`}
+                alt={active.note}
                 width={900}
                 height={1200}
                 className="h-auto w-full rounded-xl object-contain"
@@ -124,9 +123,6 @@ export default function TopRanks({ limit, showMoreLink = false }: Props) {
             </div>
             <div className="mt-3 px-2 pb-2 text-center">
               <div className="font-black text-[#0b1f3a]">{active.note}</div>
-              <div className="mt-1 text-sm font-bold text-slate-600">
-                {active.field} · {active.year}
-              </div>
             </div>
           </div>
         </div>

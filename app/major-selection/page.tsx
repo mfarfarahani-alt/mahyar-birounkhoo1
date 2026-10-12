@@ -11,6 +11,8 @@ import {
   Phone,
   ArrowLeft,
   Target,
+  FileText,
+  Download,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -141,7 +143,7 @@ export default function MajorSelectionPage() {
       </section>
 
       {/* پکیج ویژه انتخاب رشته */}
-      <section className="mx-auto max-w-5xl px-5 py-16">
+      <section id="packages" className="mx-auto max-w-5xl scroll-mt-28 px-5 py-16">
         <div className="mx-auto max-w-3xl text-center">
           <span className="inline-block rounded-full border border-amber-200 bg-amber-50 px-4 py-1.5 text-sm font-bold text-amber-700">
             پکیج ویژه
@@ -173,6 +175,92 @@ export default function MajorSelectionPage() {
             <Phone size={18} />
             رزرو بسته انتخاب رشته ویژه
           </a>
+        </div>
+      </section>
+
+      {/* توضیحات رشته‌های دانشگاهی */}
+      <section id="majors-guide" className="scroll-mt-28 bg-slate-50 px-5 py-16">
+        <div className="mx-auto max-w-5xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-1.5 text-sm font-bold text-amber-700">
+              <FileText size={15} />
+              دفترچه‌های معرفی رشته
+            </span>
+            <h2 className="mt-4 text-2xl font-black text-slate-900 md:text-3xl">
+              توضیحات رشته‌های دانشگاهی
+            </h2>
+            <p className="mt-4 leading-8 text-slate-600">
+              دفترچه‌های معرفی رشته‌های دانشگاهی برای سه گروه آزمایشی ریاضی، تجربی
+              و انسانی را از اینجا دریافت کنید و با جزئیات هر رشته آشنا شوید.
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <a
+              href="/files/majors-riazi.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-amber-300 hover:shadow-lg"
+            >
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-sky-50 text-sky-600 transition group-hover:bg-sky-100">
+                <FileText size={24} />
+              </div>
+              <h3 className="mt-4 text-lg font-black text-slate-900">
+                رشته ریاضی و فیزیک
+              </h3>
+              <p className="mt-2 flex-1 text-sm leading-7 text-slate-500">
+                معرفی رشته‌های دانشگاهی گروه ریاضی و فیزیک همراه با توضیحات
+                گرایش‌ها
+              </p>
+              <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-amber-700">
+                <Download size={16} />
+                دانلود PDF
+              </span>
+            </a>
+
+            <a
+              href="/files/majors-tajrobi.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-amber-300 hover:shadow-lg"
+            >
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600 transition group-hover:bg-emerald-100">
+                <FileText size={24} />
+              </div>
+              <h3 className="mt-4 text-lg font-black text-slate-900">
+                رشته علوم تجربی
+              </h3>
+              <p className="mt-2 flex-1 text-sm leading-7 text-slate-500">
+                معرفی رشته‌های دانشگاهی گروه تجربی از پزشکی تا علوم آزمایشگاهی
+              </p>
+              <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-amber-700">
+                <Download size={16} />
+                دانلود PDF
+              </span>
+            </a>
+
+            <a
+              href="/files/majors-ensani.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-amber-300 hover:shadow-lg sm:col-span-2 lg:col-span-1"
+            >
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-violet-50 text-violet-600 transition group-hover:bg-violet-100">
+                <FileText size={24} />
+              </div>
+              <h3 className="mt-4 text-lg font-black text-slate-900">
+                رشته علوم انسانی
+              </h3>
+              <p className="mt-2 flex-1 text-sm leading-7 text-slate-500">
+                معرفی رشته‌های دانشگاهی گروه علوم انسانی از حقوق تا مدیریت و
+                مشاوره
+              </p>
+              <span className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-amber-700">
+                <Download size={16} />
+                دانلود PDF
+              </span>
+            </a>
+          </div>
         </div>
       </section>
 

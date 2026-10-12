@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+
 const GOOGLE_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbwqdva3YX0BihDGOj_g0JRLUj_UmzKObvAKU1iIk5YGn0LbEF3XkI1yAfsTDlIpfnAWGg/exec";
 

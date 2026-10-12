@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Phone } from "lucide-react";
+import { Phone, Mail, MapPin } from "lucide-react";
 import {
   WhatsAppIcon,
   TelegramIcon,
@@ -14,7 +14,7 @@ const links = [
   { title: "خدمات", href: "/#services" },
   { title: "آزمون‌ها", href: "/assessments" },
   { title: "اخبار", href: "/news" },
-  { title: "رتبه‌های برتر", href: "/students" },
+  { title: "افتخارات", href: "/students" },
   { title: "مشاور کنکور شهرری", href: "/moshaver-konkur-shahre-rey" },
   { title: "رزرو مشاوره", href: "/#reservation" },
   { title: "تماس", href: "/#contact" },
@@ -75,7 +75,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Contact + Email */}
           <div>
             <h3 className="text-sm font-black text-white">تماس</h3>
             <a
@@ -86,9 +86,29 @@ export default function Footer() {
               <Phone size={16} />
               0938 085 1505
             </a>
+            <a
+              href="mailto:Mahyar.Biroonkhu@gmail.com"
+              dir="ltr"
+              className="mt-3 flex items-center gap-2 text-sm font-bold text-slate-300 transition hover:text-amber-400"
+            >
+              <Mail size={16} className="shrink-0 text-amber-400" />
+              <span className="break-all">Mahyar.Biroonkhu@gmail.com</span>
+            </a>
             <p className="mt-3 text-xs leading-6 text-slate-500">
               پاسخ‌گویی در ساعات کاری — رزرو آنلاین در هر ساعت از شبانه‌روز
             </p>
+
+            <h3 className="mt-6 text-sm font-black text-white">آدرس</h3>
+            <ul className="mt-3 space-y-3">
+              <li className="flex items-start gap-2 text-sm leading-6 text-slate-400">
+                <MapPin size={16} className="mt-0.5 shrink-0 text-amber-400" />
+                <span>تهران — شهرری — خیابان ۲۴ متری — روبروی اداره پست</span>
+              </li>
+              <li className="flex items-start gap-2 text-sm leading-6 text-slate-400">
+                <MapPin size={16} className="mt-0.5 shrink-0 text-amber-400" />
+                <span>قرچک — خیابان شهدا</span>
+              </li>
+            </ul>
           </div>
 
           {/* Social */}

@@ -304,7 +304,7 @@ export default function Hero() {
               <div className="flex min-h-[42px] items-center justify-center">
 
                 <Counter
-                  end={7}
+                  end={8}
                   duration={1200}
                 />
 
@@ -355,7 +355,7 @@ export default function Hero() {
               <div className="flex min-h-[42px] items-center justify-center">
 
                 <Counter
-                  end={500}
+                  end={1500}
                   duration={1600}
                 />
 

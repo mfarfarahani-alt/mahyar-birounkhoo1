@@ -1,7 +1,15 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
-import { MessageSquareQuote, Send, Star, CheckCircle, UserRound } from "lucide-react";
+import {
+  MessageSquareQuote,
+  Send,
+  Star,
+  CheckCircle,
+  UserRound,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
 
 type Review = {
   id: string;
@@ -13,6 +21,7 @@ type Review = {
 };
 
 const ratingLabels = ["", "ضعیف", "قابل قبول", "خوب", "خیلی خوب", "عالی"];
+const INITIAL_VISIBLE = 3;
 
 export default function Reviews() {
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -20,6 +29,7 @@ export default function Reviews() {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+  const [showAll, setShowAll] = useState(false);
   const [form, setForm] = useState({
     name: "",
     rating: 5,
@@ -107,6 +117,11 @@ export default function Reviews() {
     }
   }
 
+  const visibleReviews = showAll
+    ? reviews
+    : reviews.slice(0, INITIAL_VISIBLE);
+  const hasMore = reviews.length > INITIAL_VISIBLE;
+
   return (
     <section
       id="reviews"
@@ -131,11 +146,11 @@ export default function Reviews() {
         <div className="mt-12 grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
           <div>
             {loadingReviews ? (
-              <div className="grid gap-4 sm:grid-cols-2">
-                {[1, 2, 3, 4].map((item) => (
+              <div className="space-y-3">
+                {[1, 2, 3].map((item) => (
                   <div
                     key={item}
-                    className="h-44 animate-pulse rounded-3xl border border-slate-200 bg-slate-50"
+                    className="h-24 animate-pulse rounded-2xl border border-slate-200 bg-slate-50"
                   />
                 ))}
               </div>
@@ -151,41 +166,63 @@ export default function Reviews() {
                 </p>
               </div>
             ) : (
-              <div className="grid gap-4 sm:grid-cols-2">
-                {reviews.map((item) => (
+              <div className="space-y-3">
+                {visibleReviews.map((item) => (
                   <article
                     key={item.id}
-                    className="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm"
+                    className="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 shadow-sm transition hover:border-slate-300"
                   >
-                    <div className="flex items-center justify-between gap-3">
-                      <div>
-                        <h3 className="font-black text-slate-900">
-                          {item.name}
-                        </h3>
-                        {item.service && (
-                          <span className="mt-1 inline-block text-xs font-bold text-slate-500">
-                            {item.service}
-                          </span>
-                        )}
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h3 className="font-black text-slate-900">
+                            {item.name}
+                          </h3>
+                          {item.service && (
+                            <span className="rounded-full bg-white px-2.5 py-0.5 text-xs font-bold text-slate-500 ring-1 ring-slate-200">
+                              {item.service}
+                            </span>
+                          )}
+                        </div>
+                        <p className="mt-2 line-clamp-2 text-sm leading-7 text-slate-600">
+                          «{item.review}»
+                        </p>
                       </div>
                       <div
-                        className="flex items-center gap-0.5 text-amber-500"
+                        className="flex shrink-0 items-center gap-0.5 text-amber-500"
                         aria-label={`امتیاز ${item.rating} از 5`}
                       >
                         {Array.from({ length: 5 }).map((_, index) => (
                           <Star
                             key={index}
-                            size={15}
+                            size={14}
                             fill={index < item.rating ? "currentColor" : "none"}
                           />
                         ))}
                       </div>
                     </div>
-                    <p className="mt-5 text-sm leading-8 text-slate-600">
-                      «{item.review}»
-                    </p>
                   </article>
                 ))}
+
+                {hasMore && (
+                  <button
+                    type="button"
+                    onClick={() => setShowAll((prev) => !prev)}
+                    className="mt-2 flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 transition hover:border-amber-300 hover:bg-amber-50 hover:text-amber-800"
+                  >
+                    {showAll ? (
+                      <>
+                        <ChevronUp size={18} />
+                        نمایش کمتر
+                      </>
+                    ) : (
+                      <>
+                        <ChevronDown size={18} />
+                        مشاهده {reviews.length - INITIAL_VISIBLE} نظر دیگر
+                      </>
+                    )}
+                  </button>
+                )}
               </div>
             )}
           </div>
