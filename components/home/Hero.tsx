@@ -41,10 +41,16 @@ function Counter({
   prefix?: string;
   suffix?: string;
 }) {
-  const [count, setCount] = useState(0);
+  // شروع از مقدار نهایی تا در HTML اولیه (SSR و کراولرهای AI) عدد واقعی دیده شود
+  // انیمیشن فقط روی کلاینت از ۰ شروع می‌شود
+  const [count, setCount] = useState(end);
   const [finished, setFinished] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
+    setHasMounted(true);
+    setCount(0); // شروع انیمیشن از صفر فقط بعد از mount
+
     let animationFrame: number;
     let startTime: number | null = null;
 
